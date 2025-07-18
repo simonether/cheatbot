@@ -26,7 +26,7 @@
 
 ## ▶️ Быстрый старт
 
-Чтобы использовать библиотеку в своем проекте, вы можете установить ее прямо из PyPI или GitHub:
+Чтобы использовать библиотеку в своем проекте, вам понадобится API-ключ от сервиса [CheatBot](https://cheatbot.ru/). Вы можете получить его в [личном кабинете](https://cheatbot.ru/lk/settings) после регистрации.
 
 **Установка из PyPI (рекомендуется):**
 
@@ -49,41 +49,30 @@ import os
 from cheatbot import CheatBotClient
 
 async def main():
-    # Убедитесь, что переменная окружения CHEATBOT_API_KEY установлена
+    # Получите ваш API-ключ из переменной окружения
     api_key = os.getenv("CHEATBOT_API_KEY")
     if not api_key:
-        raise ValueError("Переменная окружения CHEATBOT_API_KEY не установлена. Пожалуйста, установите ее.")
+        raise ValueError("Переменная окружения CHEATBOT_API_KEY не установлена.")
 
     # Инициализация клиента. Используйте async with для автоматического закрытия сессии.
     async with CheatBotClient(api_key) as client:
-        print("\n--- Информация о профиле ---")
+        print("--- Информация о профиле ---")
         profile = await client.get_profile_info()
         print(f"Баланс: {profile.balance} RUB")
         print(f"ID пользователя: {profile.user_id}")
 
         print("\n--- Доступные сервисы ---")
         # Получение всех сервисов
-        services = client.services.get_all()
-        print(f"Всего доступных сервисов: {len(services)}")
+        all_services = client.services.get_all()
+        print(f"Всего доступных сервисов: {len(all_services)}")
 
-        # Пример поиска конкретного сервиса по ID
-        service_id_to_find = 40 # Пример ID сервиса
+        # Пример поиска конкретного сервиса по ID (например, ID 40)
+        service_id_to_find = 40
         service = client.services.get_by_id(service_id_to_find)
         if service:
             print(f"Найден сервис (ID: {service_id_to_find}): {service.name} (Категория: {service.category_name})")
         else:
             print(f"Сервис с ID {service_id_to_find} не найден.")
-
-        # Пример создания задачи (замените на реальные данные)
-        # try:
-        #     new_task = await client.create_task(
-        #         service_id=1, # Замените на реальный ID сервиса
-        #         link="https://example.com/post", # Замените на реальную ссылку
-        #         quantity=10 # Замените на желаемое количество
-        #     )
-        #     print(f"\nЗадача успешно создана! ID задачи: {new_task.id}, Статус: {new_task.status}")
-        # except Exception as e:
-        #     print(f"\nОшибка при создании задачи: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main())
