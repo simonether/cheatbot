@@ -33,4 +33,6 @@ dev = [
     "build",
     "twine",
     "mypy",
+    "ruff",
+    "pytest",
 ]
