@@ -96,7 +96,7 @@ class Service(CamelCaseModel):
     def get_tags(self) -> list[str] | None:
         """Returns the list of tags if they exist in the service."""
         tags_field = self.get_field("descriptionTags")
-        if tags_field and hasattr(tags_field, "params") and hasattr(tags_field.params, "values"):
+        if tags_field and hasattr(tags_field, "params") and tags_field.params and hasattr(tags_field.params, "values"):
             return tags_field.params.values
         return None
 
