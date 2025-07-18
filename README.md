@@ -1,7 +1,7 @@
 # 🚀 CheatBot API: Асинхронная Python-библиотека
 
 ![PyPI - Version](https://img.shields.io/pypi/v/cheatbot)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/simonether/cheatbot/main.yml?branch=main)
+[![CI/CD Pipeline](https://github.com/simonether/cheatbot/actions/workflows/ci.yml/badge.svg)](https://github.com/simonether/cheatbot/actions/workflows/ci.yml)
 ![License](https://img.shields.io/github/license/simonether/cheatbot)
 
 **`cheatbot`** — это мощная и интуитивно понятная асинхронная Python-библиотека, разработанная для бесшовного взаимодействия с API сервиса CheatBot. Она предоставляет удобный интерфейс для управления задачами, получения информации о сервисах и профиле, а также автоматизации рутинных операций.
