@@ -1,0 +1,39 @@
+name: CI/CD Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install uv
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    - name: Install dependencies
+      run: ~/.cargo/bin/uv sync --all-extras
+
+    - name: Run Linting (Ruff)
+      run: ~/.cargo/bin/uv run ruff check .
+
+    - name: Run Tests (Pytest)
+      run: ~/.cargo/bin/uv run pytest
+
+    - name: Run Type Checking (Mypy)
+      run: ~/.cargo/bin/uv run mypy cheatbot/
+
+    - name: Build package
+      run: ~/.cargo/bin/uv run python -m build
+
+    - name: Check built package with Twine
+      run: ~/.cargo/bin/uv run twine check dist/*

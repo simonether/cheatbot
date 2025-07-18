@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "cheatbot"
 version = "0.1.0"
 authors = [
-  { name="Ваше Имя", email="your@email.com" },
+  { name="Simon Sudarushkin", email="simonsudarushkin@gmail.com" },
 ]
 description = "Асинхронная Python-библиотека для взаимодействия с API сервиса CheatBot."
 readme = "README.md"
@@ -32,4 +32,5 @@ dependencies = [
 dev = [
     "build",
     "twine",
+    "mypy",
 ]
