@@ -10,7 +10,7 @@ authors = [
 ]
 description = "Асинхронная Python-библиотека для взаимодействия с API сервиса CheatBot."
 readme = "README.md"
-license = "MIT"
+license = { file = "LICENSE" }
 requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
