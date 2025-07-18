@@ -1,0 +1,411 @@
+openapi: 3.1.0
+info:
+  title: CheatBot
+  description: >
+    Описание доступных методов API.
+    Для аутентификации используется Bearer токен, который можно получить в личном кабинете в настройках или при обращении в тех. поддержку сервиса.
+    По любым вопросам пишите нам в телеграм @cheatbots мы постараемся максимально быстро вам помочь. Если есть предложения по добавлению других сервисов в API - пишите нам, добавим оперативно.
+  version: 1.0.0
+servers:
+- url: https://api.cheatbot.ru/pb
+  description: API для сервиса CheatBot
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: query
+      name: access-token
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /profile/info:
+    get:
+      tags:
+        - "Профиль"
+      summary: "Баланс, число активных задач, email"
+      description: "Баланс, число активных задач, email"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance:
+                    type: integer
+                  email:
+                    type: string
+                  active_task:
+                    type: string
+
+  /task/create:
+    post:
+      tags:
+        - "Задачи"
+      summary: "Создание задачи"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - service
+                - quantity
+                - link
+              properties:
+                service:
+                  type: integer
+                  description: "Сервис ID. Посмотреть весь список можно в /services"
+                quantity:
+                  type: integer
+                link:
+                  type: string
+                gender:
+                  type: string
+                  example: "male | Актуально только для Service ID = 10, 11, 12, 40"
+                  enum:
+                    - male
+                    - female
+                    - random
+                  description: "Актуально для Service ID = 10, 11, 12, 40. Выбор пола. По умолчанию random"
+                durationType:
+                  type: string
+                  example: "hour"
+                  enum:
+                    - min
+                    - hour
+                  description: "Актуально для Service ID = 10, 11, 12, 40. Продолжительность добавления подписчиков в часах или минутах. По умолчанию hour"
+                durationValue:
+                  type: integer
+                  example: "100"
+                  description: "Актуально для Service ID = 10, 11, 12, 40. Продолжительность добавления подписчиков. По умолчанию 100"
+                post:
+                  type: string
+                  example: "Пример: 100 (один пост) или 1,2,3,4 или 1-10 | Актуально только для Service ID = 40"
+                  description: "Актуально для Service ID = 40"
+                startParam:
+                  type: string
+                  example: "Пример: 12345 | Актуально только для Service ID = 11 (старт бота)"
+                  description: "Актуально для Service ID = 11 (старт бота)"
+                comments:
+                  type: array
+                  example: 'Массив комментариев, пример: ["комментарий-1", "комментарий-2", "комментарий-3", "комментарий-4", "комментарий-5"]'
+                  description: "Актуально для Service ID = 262 (комментарии собственные)"
+                reactions:
+                  type: array
+                  example: "Массив реакций, пример: [5, 8]. Где 5 и 8 реакции. Список доступных реакций: 1 - 👍, 2 - 👎, 3 - ❤️, 4 - 🔥, 5 - 🥰, 6 - 👏, 7 - 😁, 8 - 🤔, 9 - 🤯, 10 - 😱, 11 - 🤬, 12 - 😢, 13 - 🎉, 14 - 🤩, 15 - 🤮, 16 - 💩, 17 - 🙏, 18 - 👍, 19 => 🕊, 20 - 🤡, 21 - 🥱, 22 - 🥴, 23 - 😍, 24 - 🐳, 25 - ❤️‍🔥, 26 - 🌚, 27 - 🌭, 28 - 💯, 29 - 🤣, 30 - ⚡️, 31 - 🍌, 32 - 💔, 33 - 🤨, 34 - 😐, 35 - ✍️, 36 - 💅, 37 - 😴, 38 - 🤝, 39 - 🖕, 40 - 🤪, 41 - 💘, 42 - 😇, 43 - 🍓, 44 - 😭, 45 - 😈, 46 - 🆒, 47 - 🤓, 48 - 🙊, 49 - 🫡, 50 - 🗿, 51 - 😨, 52 - ☃️, 53 - 👻, 54 - 👀, 55 - 🙈, 56 - 🤗, 57 - 🙉, 58 - 🎄, 59 - 🍾, 60 - 💊, 61 - 🏆, 62 - 🧑‍💻, 63 - 🎅, 64 - 💋, 65 - 😘"
+                  description: "Актуально для Service ID = 53 (реакции)"
+                intervals:
+                  type: array
+                  example: [{"from":"2023-12-06T15:00:00","to":"2023-12-06T17:00:00","speedCoefficient":-3}, {"from":"2023-12-06T17:00:00","to":"2023-12-06T19:00:00","speedCoefficient":2}]
+                  description: "Массив интервалов плавающей скорости. Актуально для Service ID = 40, 53. Время необходимо передавать в UTC0. Параметр speedCoefficient имеет значения от -10 до 2"
+            examples:
+              common:
+                summary: Создание задачи
+                value:
+                  service:
+                    value: "integer"
+                    description: "Сервис ID. Посмотреть весь список можно в /services"
+                  link:
+                    type: "string"
+                    example: "https://..."
+                  quantity:
+                    type: "integer"
+                    description: "Количество"
+              telegramWatch:
+                summary: Создание просмотров Telegram
+                value:
+                  service: 40
+                  link: https://t.me/<channel>
+                  quantity: 100
+                  post: 100
+                  gender: random
+                  durationType: hour
+                  durationValue: 100
+                  intervals: [ {"from": "2023-12-06T15:00:00", "to": "2023-12-06T17:00:00","speedCoefficient": -3}, {"from": "2023-12-06T17:00:00", "to": "2023-12-06T19:00:00","speedCoefficient": 2} ]
+              telegramReaction:
+                summary: Создание реакций Telegram
+                value:
+                  service: 53
+                  link: https://t.me/<channel>
+                  quantity: 100
+                  reactions: [ 5, 8 ]
+                  post: 100
+                  durationType: hour
+                  durationValue: 100
+                  intervals: [ {"from": "2023-12-06T15:00:00", "to": "2023-12-06T17:00:00","speedCoefficient": -3}, {"from": "2023-12-06T17:00:00", "to": "2023-12-06T19:00:00","speedCoefficient": 2} ]
+              telegramVote:
+                summary: Создание голосований Telegram
+                value:
+                  service: 31
+                  link:
+                    type: "string"
+                    example: https://t.me/<channel>/<messageId>#1,3
+                    description: В этом примере messageId - номера поста, 1, 3 - варианты ответа
+                  quantity: 100
+                  durationType: hour
+                  durationValue: 100
+              telegramStartBot:
+                summary: Создание старт бота Telegram
+                value:
+                  service: 11
+                  link: https://t.me/<bot_link>
+                  startParam: 123456789
+                  quantity: 100
+                  gender: random
+                  durationType: hour
+                  durationValue: 100
+      responses:
+        200:
+          description: "Ответ запроса"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      cost:
+                        type: integer
+                  complete:
+                    type: boolean
+
+  /task/refund:
+    $ref: 'task/refund.yml'
+
+  /task/<id>:
+    get:
+      tags:
+        - "Задачи"
+      summary: "Статус одной задачи"
+      description: "Статус одной задачи"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int32
+                    service:
+                      type: integer
+                    link:
+                      type: string
+                    cost:
+                      type: integer
+                    status:
+                      type: string
+                    created:
+                      type: integer
+                    remains:
+                      type: integer
+
+  /task/status?orders=<100,200,300>:
+    get:
+      tags:
+        - "Задачи"
+      summary: "Статус списка задач"
+      description: "Статус списка задач"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: object
+                    properties:
+                      service:
+                        type: integer
+                      link:
+                        type: string
+                      cost:
+                        type: integer
+                      status:
+                        type: string
+                      created:
+                        type: integer
+                      remains:
+                        type: integer
+
+  /telegram-subscription/create-view:
+    post:
+      tags:
+        - "Подписки"
+      summary: "Создание автопросмотры Telegram"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - link
+                - limit
+                - durationValue
+                - durationType
+                - day
+                - dailyMessageLimit
+              properties:
+                link:
+                  type: string
+                limit:
+                  type: integer
+                  example: "Количество просмотров"
+                durationType:
+                  type: string
+                  example: "hour"
+                  enum:
+                    - min
+                    - hour
+                  description: "Продолжительность добавления подписчиков в часах или минутах."
+                durationValue:
+                  type: integer
+                  example: "100"
+                  description: "Продолжительность добавления подписчиков."
+                day:
+                  type: integer
+                  example: "10"
+                  description: "Количество дней"
+                dailyMessageLimit:
+                  type: integer
+                  example: "50"
+                  description: "Количество постов в сутки для просмотров. Возможные варианты 50, 100, 150, 200"
+      responses:
+        200:
+          description: "Ответ запроса"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      cost:
+                        type: integer
+                  complete:
+                    type: boolean
+
+  /telegram-subscription/edit-view:
+    $ref: 'telegram-subscription/edit-view.yml'
+
+  /telegram-subscription/pause:
+    $ref: 'telegram-subscription/pause.yml'
+
+  /telegram-subscription/start:
+    $ref: 'telegram-subscription/start.yml'
+
+  /telegram-subscription/refund:
+    $ref: 'telegram-subscription/refund.yml'
+
+  /telegram-subscription/<id>:
+    get:
+      tags:
+        - "Подписки"
+      summary: "Статус автопросмотров"
+      description: "Статус автопросмотров"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int32
+                    service:
+                      type: string
+                    type:
+                      type: string
+                    link:
+                      type: string
+                    cost:
+                      type: integer
+                    progress:
+                      type: string
+                    created:
+                      type: integer
+                    amount:
+                      type: integer
+
+  /telegram-subscription/create-reaction:
+    post:
+      tags:
+        - "Подписки"
+      summary: "Создание автореакций Telegram"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - link
+                - limit
+                - limitPost
+                - durationValue
+                - durationType
+                - reactions
+              properties:
+                link:
+                  type: string
+                limit:
+                  type: integer
+                  example: "Общее количество реакций на пост"
+                limitPost:
+                  type: integer
+                  example: "Количество новых постов"
+                durationType:
+                  type: string
+                  example: "hour"
+                  enum:
+                    - min
+                    - hour
+                  description: "Продолжительность добавления подписчиков в часах или минутах."
+                durationValue:
+                  type: integer
+                  example: "100"
+                  description: "Продолжительность добавления подписчиков."
+                reactions:
+                  type: array
+                  example: "Массив реакций, пример: [5, 8]. Где 5 и 8 реакции. Список доступных реакций: 1 - 👍, 2 - 👎, 3 - ❤️, 4 - 🔥, 5 - 🥰, 6 - 👏, 7 - 😁, 8 - 🤔, 9 - 🤯, 10 - 😱, 11 - 🤬, 12 - 😢, 13 - 🎉, 14 - 🤩, 15 - 🤮, 16 - 💩, 17 - 🙏, 18 - 👍, 19 => 🕊, 20 - 🤡, 21 - 🥱, 22 - 🥴, 23 - 😍, 24 - 🐳, 25 - ❤️‍🔥, 26 - 🌚, 27 - 🌭, 28 - 💯, 29 - 🤣, 30 - ⚡️, 31 - 🍌, 32 - 💔, 33 - 🤨, 34 - 😐, 35 - ✍️, 36 - 💅, 37 - 😴, 38 - 🤝, 39 - 🖕, 40 - 🤪, 41 - 💘, 42 - 😇, 43 - 🍓, 44 - 😭, 45 - 😈, 46 - 🆒, 47 - 🤓, 48 - 🙊, 49 - 🫡, 50 - 🗿, 51 - 😨, 52 - ☃️, 53 - 👻, 54 - 👀, 55 - 🙈, 56 - 🤗, 57 - 🙉, 58 - 🎄, 59 - 🍾, 60 - 💊, 61 - 🏆, 62 - 🧑‍💻, 63 - 🎅, 64 - 💋, 65 - 😘"
+                  description: "Реакции"
+      responses:
+        200:
+          description: "Ответ запроса"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      cost:
+                        type: integer
+                  complete:
+                    type: boolean

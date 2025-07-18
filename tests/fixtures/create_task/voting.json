@@ -1,0 +1,11 @@
+{
+  "service": 31,
+  "link": {
+    "type": "string",
+    "example": "https://t.me/<channel>/<messageId>#1,3",
+    "description": "В этом примере messageId - номера поста, 1, 3 - варианты ответа"
+  },
+  "quantity": 100,
+  "durationType": "hour",
+  "durationValue": 100
+}

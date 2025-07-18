@@ -1,0 +1,14 @@
+{
+  "service": {
+    "value": "integer",
+    "description": "Сервис ID. Посмотреть весь список можно в /services"
+  },
+  "link": {
+    "type": "string",
+    "example": "https://..."
+  },
+  "quantity": {
+    "type": "integer",
+    "description": "Количество"
+  }
+}

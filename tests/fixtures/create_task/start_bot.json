@@ -1,0 +1,9 @@
+{
+  "service": 11,
+  "link": "https://t.me/<bot_link>",
+  "startParam": 123456789,
+  "quantity": 100,
+  "gender": "random",
+  "durationType": "hour",
+  "durationValue": 100
+}

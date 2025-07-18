@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cheatbot"
+version = "0.1.0"
+authors = [
+  { name="Ваше Имя", email="your@email.com" },
+]
+description = "Асинхронная Python-библиотека для взаимодействия с API сервиса CheatBot."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "httpx>=0.20.0",
+    "pydantic>=2.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/simonether/cheatbot"
+"Repository" = "https://github.com/simonether/cheatbot"
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "twine",
+]

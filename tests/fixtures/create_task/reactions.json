@@ -1,0 +1,25 @@
+{
+  "service": 53,
+  "link": "https://t.me/<channel>",
+  "quantity": 100,
+  "reactions": [
+    5,
+    8
+  ],
+  "post": 100,
+  "durationType": "hour",
+  "durationValue": 100,
+  "intervals": [
+    {
+      "from": "2023-12-06T15:00:00",
+      "to": "2023-12-06T17:00:00",
+      "speedCoefficient": -3
+    },
+    {
+      "from": "2023-12-06T17:00:00",
+      "to": "2023-12-06T19:00:00",
+      "speedCoefficient": 2
+    }
+  ]
+}
+
